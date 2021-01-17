@@ -2,22 +2,57 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import * as React from "react";
 import {useEffect, useState} from "react";
-import useSWR from "swr";
-
 
 export default function Home() {
 
     const [query, setQuery] = useState('');
 
+    const [searchResult, setSearchResult] = useState(null)
+    const [error, setError] = useState('')
+    const [nominate, setNominate] = useState([])
 
+    console.log(nominate);
 
-    const {data, error} = useSWR(`http://www.omdbapi.com/?apikey=d1461bf&s=${query}`, fetch)
+    // fetch data
+    useEffect(() => {
 
-    const [searchResult, setSearchResult] = useState(data)
+        fetch(`http://www.omdbapi.com/?apikey=d1461bf&s=${query}`).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Something went wrong');
+            }
+        }).then((responseJson) => {
 
-    console.log(searchResult.body)
-    console.log(data)
-    console.log(error)
+            if (responseJson.Response === "True") {
+                setSearchResult(responseJson.Search);
+            } else {
+                setSearchResult(null);
+            }
+        }).catch((error) => {
+            console.log(error)
+        });
+
+    }, [query])
+
+    // fetch data
+    useEffect(() => {
+
+        console.log("Changed", nominate);
+    }, [nominate])
+
+    function selectedNomination(result) {
+
+        if (nominate.length < 5) {
+            if (!(nominate.some(nom => nom.imdbID === result.imdbID))) {
+                setNominate([...nominate, result]);
+            }
+        }
+    }
+
+    function removeNomination(result) {
+        setNominate((nominations) => nominations.filter((nom) =>  nom.imdbID !== result.imdbID))
+    }
 
     return (
         <div className={styles.container}>
@@ -48,27 +83,40 @@ export default function Home() {
                     <div className={styles.card}>
                         <h3>Results for "{query}"</h3>
                         <ul>
-                            {data ?
-                                // data.map(movie =>
-                                    <a>
-                                        <li className={styles.list}><img className={styles.nomIcon} src="/like.png"
-                                                                         alt="nominate"/> tea
-                                        </li>
-                                    </a>
-                                // )
-
-                                : ""}
+                            {
+                                searchResult ? searchResult.map(result =>
+                                        <a>
+                                            <li className={styles.list}>
+                                                <button
+                                                    onClick={() => selectedNomination(result)}
+                                                    className={styles.nominate}>Nominate
+                                                </button>
+                                                {result.Title} ({result.Year})
+                                            </li>
+                                        </a>
+                                    )
+                                    : ""
+                            }
                         </ul>
                     </div>
 
                     <div className={styles.card}>
                         <h3>Nominations</h3>
                         <ul>
-                            <a>
-                                <li className={styles.list}><img className={styles.nomIcon} src="/like.png"
-                                                                 alt="nominate"/> Tea
-                                </li>
-                            </a>
+                            {
+                                nominate ? nominate.map(result =>
+                                        <a>
+                                            <li className={styles.list}>
+                                                <button
+                                                    onClick={() => removeNomination(result)}
+                                                    className={styles.activeNominate}>Remove
+                                                </button>
+                                                {result.Title} ({result.Year})
+                                            </li>
+                                        </a>
+                                    )
+                                    : ""
+                            }
                         </ul>
                     </div>
                 </div>

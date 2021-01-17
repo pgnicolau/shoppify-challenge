@@ -36,7 +36,7 @@
 }
 
 .title a {
-    color: #0070f3;
+    /*color: #0070f3;*/
     text-decoration: none;
 }
 
@@ -140,6 +140,62 @@
     align-items: center;
     padding: 8px 0;
 }
+
+.nominate {
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    color: #12cd88;
+    font-family: Open Sans;
+    font-size: 14px;
+    font-weight: 100;
+    padding: 8px 10px;
+    background-color: #fafafa;
+    /*background-color: #FEB8C7; */
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 30px;
+    border:  1px solid #12cd88;
+    margin-right: 0.5rem;
+}
+
+.nominate:hover {
+    color: #fafafa;
+    background-color: #12cd88;
+    border: 1px solid #fafafa;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    text-decoration: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.activeNominate {
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    font-size: 14px;
+    font-weight: 100;
+    padding: 8px 10px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 30px;
+    margin-right: 0.5rem;
+    color: #fafafa;
+    background-color: #12cd88;
+    border: 1px solid #fafafa;
+}
+
+.activeNominate:focus {
+    outline: none;
+}
+
+.nominate:focus {
+   outline: none;
+}
+
 
 .searchbar {
     padding-left:50px;
