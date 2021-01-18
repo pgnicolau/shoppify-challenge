@@ -55,8 +55,9 @@ export default function Home() {
             }
             storedNames = JSON.parse(localStorage.getItem("nomination_list"))
             localStorage.setItem("nomination_list", JSON.stringify(nominate));
+            setInitialized(true);
         }
-    }, [nominate])
+    }, [nominate, initialized, windowLoaded])
 
     function selectedNomination(result) {
 
