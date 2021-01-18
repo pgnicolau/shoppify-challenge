@@ -18,7 +18,7 @@ export default function Home() {
     const [searchResult, setSearchResult] = useState(null)
     const [error, setError] = useState('')
 
-    const storedNames = JSON.parse(localStorage.getItem("nomination_list"));
+    const storedNames = JSON.parse(global.localStorage.getItem("nomination_list"));
 
     const [nominate, setNominate] = useState(storedNames.length > 0 ? storedNames : [])
 
