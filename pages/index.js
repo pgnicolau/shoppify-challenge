@@ -26,7 +26,7 @@ export default function Home() {
     // fetch data
     useEffect(() => {
 
-        fetch(`http://www.omdbapi.com/?apikey=d1461bf&s=${query}`).then((response) => {
+        fetch(`https://www.omdbapi.com/?apikey=d1461bf&s=${query}`).then((response) => {
             if (response.ok) {
                 return response.json();
             } else {
