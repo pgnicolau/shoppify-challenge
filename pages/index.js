@@ -114,16 +114,15 @@ export default function Home() {
                         <ul>
                             {
                                 searchResult ? searchResult.map(result =>
-                                        <a>
-                                            <li className={styles.list}>
-                                                <button
-                                                    onClick={() => selectedNomination(result)}
-                                                    className={getButtonStyle(result)}
-                                                >Nominate
-                                                </button>
-                                                {result.Title} ({result.Year})
-                                            </li>
-                                        </a>
+
+                                        <li key={result.imdbID} className={styles.list}>
+                                            <button
+                                                onClick={() => selectedNomination(result)}
+                                                className={getButtonStyle(result)}
+                                            >Nominate
+                                            </button>
+                                            {result.Title} ({result.Year})
+                                        </li>
                                     )
                                     : ""
                             }
@@ -135,15 +134,14 @@ export default function Home() {
                         <ul>
                             {
                                 nominate.length > 0 ? nominate.map(result =>
-                                        <a>
-                                            <li className={styles.list}>
-                                                <button
-                                                    onClick={() => removeNomination(result)}
-                                                    className={styles.activeNominate}>Remove
-                                                </button>
-                                                {result.Title} ({result.Year})
-                                            </li>
-                                        </a>
+
+                                        <li key={result.imdbID} className={styles.list}>
+                                            <button
+                                                onClick={() => removeNomination(result)}
+                                                className={styles.activeNominate}>Remove
+                                            </button>
+                                            {result.Title} ({result.Year})
+                                        </li>
                                     )
                                     : ""
                             }
