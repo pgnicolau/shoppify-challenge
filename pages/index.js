@@ -3,14 +3,13 @@ import styles from '../styles/Home.module.css'
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {toast, ToastContainer} from 'react-nextjs-toast'
-import { LocalStorage } from "node-localstorage";
 
 export default function Home() {
 
 
     // SESSION CODE
-    if (!global.localStorage.getItem('nomination_list')) {
-        global.localStorage.setItem('nomination_list', []);
+    if (!window.localStorage.getItem('nomination_list')) {
+        window.localStorage.setItem('nomination_list', []);
     }
 
     const [query, setQuery] = useState('');
@@ -18,11 +17,11 @@ export default function Home() {
     const [searchResult, setSearchResult] = useState(null)
     const [error, setError] = useState('')
 
-    const storedNames = JSON.parse(global.localStorage.getItem("nomination_list"));
+    const storedNames = JSON.parse(window.localStorage.getItem("nomination_list"));
 
     const [nominate, setNominate] = useState(storedNames.length > 0 ? storedNames : [])
 
-    global.localStorage.setItem("nomination_list", JSON.stringify(nominate));
+    window.localStorage.setItem("nomination_list", JSON.stringify(nominate));
 
     // fetch data
     useEffect(() => {
