@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {toast, ToastContainer} from 'react-nextjs-toast'
+import ls from 'local-storage'
 
 export default function Home() {
 
@@ -18,10 +19,11 @@ export default function Home() {
     const [error, setError] = useState('')
 
     // const storedNames = JSON.parse(localStorage.getItem("nomination_list"));
-    const storedNames = [];
+    const storedNames = JSON.parse(ls.get('nomination_list')) || [];
     const [nominate, setNominate] = useState(storedNames.length > 0 ? storedNames : [])
 
     // localStorage.setItem("nomination_list", JSON.stringify(nominate));
+    ls.set('nomination_list', JSON.stringify(nominate))
 
     // fetch data
     useEffect(() => {
