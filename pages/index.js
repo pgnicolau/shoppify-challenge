@@ -3,12 +3,14 @@ import styles from '../styles/Home.module.css'
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {toast, ToastContainer} from 'react-nextjs-toast'
+import { LocalStorage } from "node-localstorage";
 
 export default function Home() {
 
+
     // SESSION CODE
-    if (!localStorage.getItem('nomination_list')) {
-        localStorage.setItem('nomination_list', []);
+    if (!global.localStorage.getItem('nomination_list')) {
+        global.localStorage.setItem('nomination_list', []);
     }
 
     const [query, setQuery] = useState('');
@@ -20,7 +22,7 @@ export default function Home() {
 
     const [nominate, setNominate] = useState(storedNames.length > 0 ? storedNames : [])
 
-    localStorage.setItem("nomination_list", JSON.stringify(nominate));
+    global.localStorage.setItem("nomination_list", JSON.stringify(nominate));
 
     // fetch data
     useEffect(() => {
