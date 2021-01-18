@@ -2,16 +2,25 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import * as React from "react";
 import {useEffect, useState} from "react";
+import {toast, ToastContainer} from 'react-nextjs-toast'
 
 export default function Home() {
+
+    // SESSION CODE
+    if (!localStorage.getItem('nomination_list')) {
+        localStorage.setItem('nomination_list', []);
+    }
 
     const [query, setQuery] = useState('');
 
     const [searchResult, setSearchResult] = useState(null)
     const [error, setError] = useState('')
-    const [nominate, setNominate] = useState([])
 
-    console.log(nominate);
+    const storedNames = JSON.parse(localStorage.getItem("nomination_list"));
+
+    const [nominate, setNominate] = useState(storedNames.length > 0 ? storedNames : [])
+
+    localStorage.setItem("nomination_list", JSON.stringify(nominate));
 
     // fetch data
     useEffect(() => {
@@ -37,8 +46,6 @@ export default function Home() {
 
     // fetch data
     useEffect(() => {
-
-        console.log("Changed", nominate);
     }, [nominate])
 
     function selectedNomination(result) {
@@ -47,11 +54,25 @@ export default function Home() {
             if (!(nominate.some(nom => nom.imdbID === result.imdbID))) {
                 setNominate([...nominate, result]);
             }
+        } else if (nominate.length === 5) {
+            toast.notify('You have reached the max number of nominations!', {
+                title: 'Just a Friendly Reminder',
+                duration: 100,
+                type: "info",
+            })
         }
     }
 
     function removeNomination(result) {
-        setNominate((nominations) => nominations.filter((nom) =>  nom.imdbID !== result.imdbID))
+        setNominate((nominations) => nominations.filter((nom) => nom.imdbID !== result.imdbID))
+    }
+
+    function getButtonStyle(result) {
+        if ((nominate.some(nom => nom.imdbID === result.imdbID))) {
+            return styles.disabled
+        } else {
+            return styles.nominate
+        }
     }
 
     return (
@@ -62,6 +83,9 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
+
+                <ToastContainer/>
+
                 <h1 className={styles.title}>
                     The Shoppies Movie Awards
                 </h1>
@@ -89,7 +113,8 @@ export default function Home() {
                                             <li className={styles.list}>
                                                 <button
                                                     onClick={() => selectedNomination(result)}
-                                                    className={styles.nominate}>Nominate
+                                                    className={getButtonStyle(result)}
+                                                >Nominate
                                                 </button>
                                                 {result.Title} ({result.Year})
                                             </li>
@@ -104,7 +129,7 @@ export default function Home() {
                         <h3>Nominations</h3>
                         <ul>
                             {
-                                nominate ? nominate.map(result =>
+                                nominate.length > 0 ? nominate.map(result =>
                                         <a>
                                             <li className={styles.list}>
                                                 <button
