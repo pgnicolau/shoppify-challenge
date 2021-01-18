@@ -8,8 +8,8 @@ export default function Home() {
 
 
     // SESSION CODE
-    if (!window.localStorage.getItem('nomination_list')) {
-        window.localStorage.setItem('nomination_list', []);
+    if (!localStorage.getItem('nomination_list')) {
+        localStorage.setItem('nomination_list', []);
     }
 
     const [query, setQuery] = useState('');
@@ -17,11 +17,11 @@ export default function Home() {
     const [searchResult, setSearchResult] = useState(null)
     const [error, setError] = useState('')
 
-    const storedNames = JSON.parse(window.localStorage.getItem("nomination_list"));
+    const storedNames = JSON.parse(localStorage.getItem("nomination_list"));
 
     const [nominate, setNominate] = useState(storedNames.length > 0 ? storedNames : [])
 
-    window.localStorage.setItem("nomination_list", JSON.stringify(nominate));
+    localStorage.setItem("nomination_list", JSON.stringify(nominate));
 
     // fetch data
     useEffect(() => {
