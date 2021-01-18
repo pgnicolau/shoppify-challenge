@@ -6,22 +6,17 @@ import {toast, ToastContainer} from 'react-nextjs-toast'
 
 export default function Home() {
 
-
-    // SESSION CODE
-    if (!localStorage.getItem('nomination_list')) {
-        localStorage.setItem('nomination_list', []);
-    }
-
     const [query, setQuery] = useState('');
 
     const [searchResult, setSearchResult] = useState(null)
     const [error, setError] = useState('')
 
-    const storedNames = JSON.parse(localStorage.getItem("nomination_list"));
+    let storedNames = [];
 
     const [nominate, setNominate] = useState(storedNames.length > 0 ? storedNames : [])
 
-    localStorage.setItem("nomination_list", JSON.stringify(nominate));
+    const [initialized, setInitialized] = useState(false);
+    const [windowLoaded, setWindowLoaded] = useState(false);
 
     // fetch data
     useEffect(() => {
@@ -43,10 +38,24 @@ export default function Home() {
             console.log(error)
         });
 
-    }, [query])
+    }, [query, windowLoaded])
+
+    if (!windowLoaded){
+        if (typeof window !== 'undefined' && window){
+            setWindowLoaded(true)
+        }
+    }
 
     // fetch data
     useEffect(() => {
+        if (!initialized && windowLoaded) {
+            // SESSION CODE
+            if (!localStorage.getItem('nomination_list')) {
+                localStorage.setItem('nomination_list', []);
+            }
+            storedNames = JSON.parse(localStorage.getItem("nomination_list"))
+            localStorage.setItem("nomination_list", JSON.stringify(nominate));
+        }
     }, [nominate])
 
     function selectedNomination(result) {
