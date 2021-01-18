@@ -21,3 +21,11 @@ a {
   background-color: #feb8c7 !important;
   box-shadow: none !important;
 }
+
+.toast-message-container{
+  top: 0 !important;
+}
+
+.title.jsx-3489082497 {
+  color: #101010 !important;
+}

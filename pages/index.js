@@ -50,16 +50,18 @@ export default function Home() {
 
     function selectedNomination(result) {
 
+        if (nominate.length === 4) {
+            toast.notify('You have reached the max number of nominations!', {
+                title: 'Just a Friendly Reminder',
+                duration: 20,
+                type: "info",
+            })
+        }
+
         if (nominate.length < 5) {
             if (!(nominate.some(nom => nom.imdbID === result.imdbID))) {
                 setNominate([...nominate, result]);
             }
-        } else if (nominate.length === 5) {
-            toast.notify('You have reached the max number of nominations!', {
-                title: 'Just a Friendly Reminder',
-                duration: 100,
-                type: "info",
-            })
         }
     }
 
@@ -84,7 +86,7 @@ export default function Home() {
 
             <main className={styles.main}>
 
-                <ToastContainer/>
+                <ToastContainer position={"top"}/>
 
                 <h1 className={styles.title}>
                     The Shoppies Movie Awards

@@ -198,6 +198,10 @@
     cursor: not-allowed;
 }
 
+.disabled:focus {
+    outline: none;
+}
+
 .activeNominate {
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
